@@ -1,0 +1,8 @@
+# if you are using pgsql uncomment the following line
+*.pgsql*
+
+# if you are using other than pgsql database uncomment one line you are using
+# *.db
+# *.sqlite
+# *.sqlite3
+# *.sql
