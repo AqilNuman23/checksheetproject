@@ -9,12 +9,20 @@ use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Carbon\Carbon;
 
 class UserDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->setRowId('id');
+        return (new EloquentDataTable($query))
+            ->addIndexColumn()
+            ->editColumn('updated_at', function ($checksheet) {
+                return Carbon::parse($checksheet->updated_at)->format('d/m/Y');
+            })
+            ->editColumn('created_at', function ($checksheet) {
+                return Carbon::parse($checksheet->created_at)->format('d/m/Y');
+            });
     }
 
     public function query(User $model): QueryBuilder
@@ -44,7 +52,8 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            // Column::make('id'),
+            Column::make('DT_RowIndex', 'id')->title('#')->orderable(false)->searchable(false),
             Column::make('name'),
             Column::make('email'),
             Column::make('created_at'),

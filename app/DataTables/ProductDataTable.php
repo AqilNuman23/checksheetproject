@@ -14,7 +14,8 @@ class ProductDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->setRowId('id');
+        return (new EloquentDataTable($query))
+            ->addIndexColumn();   
     }
 
     public function query(Product $model): QueryBuilder
@@ -44,7 +45,7 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('DT_RowIndex', 'id')->title('#')->orderable(false)->searchable(false),
             Column::make('name'),
             Column::make('description'),
         ];

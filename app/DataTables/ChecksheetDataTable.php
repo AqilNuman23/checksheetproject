@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Checksheet;
+use App\Models\StatusRecord;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -16,6 +17,7 @@ class ChecksheetDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->editColumn('updated_at', function ($checksheet) {
                 return Carbon::parse($checksheet->updated_at)->format('d/m/Y');
             })
@@ -28,7 +30,9 @@ class ChecksheetDataTable extends DataTable
             ->editColumn('product.name', function ($checksheet) {
                 return $checksheet->product ? $checksheet->product->name : 'N/A';
             })
-            ->setRowId('id');
+            ->editColumn('status_record_id', function ($checksheet) {
+                return $checksheet->status_record_id ? StatusRecord::STATUS[$checksheet->status_record_id] : 'N/A';
+            });
     }
 
     public function query(Checksheet $model): QueryBuilder
@@ -58,11 +62,12 @@ class ChecksheetDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            // Column::make('id'),
+            Column::make('DT_RowIndex', 'id')->title('#')->orderable(false)->searchable(false),
             Column::make('supplier.name')->title('Supplier'),
             Column::make('qe.name')->title('QE'),           
             Column::make('product.name')->title('Product'), 
-            Column::make('status')->title('Status'),
+            Column::make('status_record_id')->title('Status'),
             Column::make('updated_at')->title('Updated At'),
         ];
     }
