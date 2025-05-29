@@ -17,9 +17,16 @@ class StatusRecord extends Model
         self::REJECTED => 'Rejected',
     ];
 
+    protected $table = 'status_record';
+
     // make a connection with the checksheet table
     public function checksheets()
     {
         return $this->hasMany(Checksheet::class);
+    }
+
+    public function getStatusName()
+    {
+        return self::STATUS[$this->id] ?? 'Unknown';
     }
 }

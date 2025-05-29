@@ -32,6 +32,9 @@ class ChecksheetDataTable extends DataTable
             })
             ->editColumn('status_record_id', function ($checksheet) {
                 return $checksheet->status_record_id ? StatusRecord::STATUS[$checksheet->status_record_id] : 'N/A';
+            })
+            ->addColumn('action', function ($checksheet) {
+            return '<a href="' . route('checksheet.show', $checksheet->id) . '" class="btn btn-sm btn-primary">View</a>';
             });
     }
 
@@ -69,6 +72,14 @@ class ChecksheetDataTable extends DataTable
             Column::make('product.name')->title('Product'), 
             Column::make('status_record_id')->title('Status'),
             Column::make('updated_at')->title('Updated At'),
+            Column::computed('action')
+                ->title('Action')
+                ->exportable(false)
+                ->printable(false)
+                ->orderable(false)
+                ->searchable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
     protected function filename(): string

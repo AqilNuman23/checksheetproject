@@ -96,7 +96,7 @@ class ChecksheetProjectSeeder extends Seeder
                     'dimension' => $faker->numberBetween(10, 100) . 'x' . $faker->numberBetween(10, 100) . 'x' . $faker->numberBetween(10, 100),
                     'material' => $faker->randomElement(['Steel', 'Plastic', 'Wood']),
                 ]),
-                'document_path' => $faker->filePath(),
+                'document' => $faker->filePath(),
                 'status' => $faker->randomElement($statuses),
                 'submission_date' => $faker->dateTimeBetween('-1 year', 'now'),
                 'warranty_expiry' => $faker->dateTimeBetween('now', '+2 years'),

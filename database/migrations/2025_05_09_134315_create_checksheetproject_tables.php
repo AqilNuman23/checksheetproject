@@ -41,7 +41,7 @@ return new class extends Migration {
             $table->foreignId('supplier_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('qe_id')->constrained('users')->onDelete('cascade');
             $table->text('details')->nullable(); // size, dimension, etc.
-            $table->string('document_path')->nullable(); // softcopy of checksheet
+            $table->string('document')->nullable(); // softcopy of checksheet
             $table->enum('status', ['submitted', 'reviewed', 'approved', 'rejected'])->default('submitted');
             $table->date('submission_date')->nullable();
             $table->date('warranty_expiry')->nullable();

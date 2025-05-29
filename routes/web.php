@@ -6,14 +6,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ChecksheetController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,9 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/checksheets/create', [ChecksheetController::class, 'create'])->name('checksheet.create');
     Route::post('/checksheets', [ChecksheetController::class, 'store'])->name('checksheet.store');
     Route::get('/checsheets/export', [ChecksheetController::class, 'export'])->name('checksheet.export');
+    Route::post('/checksheets/import', [ChecksheetController::class, 'import'])->name('checksheet.import');
     Route::get('/checksheets/{id}', [ChecksheetController::class, 'show'])->name('checksheet.show');
     Route::get('/checksheets/{id}/edit', [ChecksheetController::class, 'edit'])->name('checksheet.edit');
-    Route::delete('/checksheets/{id}', [ChecksheetController::class, 'destroy'])->name('checksheet.destroy');
+    Route::post('/checksheets/update/{id}', [ChecksheetController::class, 'update'])->name('checksheet.update');
+    Route::delete('/checksheets/{id}', [ChecksheetController::class, 'delete'])->name('checksheet.delete');
+    Route::get('/checksheets/import-data', action: [ChecksheetController::class, 'getImportData'])->name('checksheet.getImportData');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
